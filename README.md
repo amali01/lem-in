@@ -1,0 +1,1 @@
+should add the end room immediately when reading
