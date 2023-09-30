@@ -12,4 +12,5 @@ func main() {
 		return
 	}
 	funcs.SetColony(os.Args[1])
+	fmt.Println(funcs.ColonyRooms)
 }
