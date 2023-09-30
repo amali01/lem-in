@@ -3,49 +3,81 @@ package funcs
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"regexp"
+	"strconv"
+	"strings"
 )
 
 func SetColony(filePath string) {
 	input, err := os.Open(filePath)
 	if err != nil {
 		fmt.Println(err)
-		return
+		os.Exit(1)
 	}
 	defer input.Close()
+
 	scanner := bufio.NewScanner(input)
-	for scanner.Scan() {
-		line := scanner.Text()
-		lineType := CheckLineRoomFormat(line)
-		switch lineType {
-		case "room":
-			AddRoom(line)
-		case "tunnel":
-			AddTunnel(line)
-			// default:
-			// 	fmt.Println("Unknown line type:", lineType)
+	var line string
+
+	// Read the first line containing the number of ants
+	if scanner.Scan() {
+		line = scanner.Text()
+		if numAnts, err := strconv.Atoi(line); err == nil {
+			fmt.Println("Number of ants:", numAnts)
+		} else {
+			log.Fatal("Invalid number of ants")
 		}
-		if scanner.Text() == "##start" {
+	}
+
+	// Process the lines until a non-room line or non-comment line is encountered
+	for scanner.Scan() {
+		line = scanner.Text()
+		if !RoomLineFormat(line) && !strings.HasPrefix(line, "#") {
+			break
+		}
+		if RoomLineFormat(line) {
+			AddRoom(line)
+		} else if line == "##start" {
 			isStart = true
-		} else if scanner.Text() == "##end" {
+		} else if line == "##end" {
 			isEnd = true
+		}
+	}
+	ColonyRooms = append(ColonyRooms, EndRoom)
+
+	// Check and process the tunnel lines
+	if !TunnelLineFormat(line) {
+		log.Fatal("Invalid format:", line)
+	}
+	AddTunnel(line)
+
+	// Process the remaining tunnel lines
+	for scanner.Scan() {
+		line = scanner.Text()
+		if TunnelLineFormat(line) {
+			AddTunnel(line)
+		} else if !strings.HasPrefix(line, "#") {
+			break
 		}
 	}
 
 	if err := scanner.Err(); err != nil {
 		fmt.Println(err)
 	}
-	// add the end room
-	ColonyRooms = append(ColonyRooms, EndRoom)
+
 	fmt.Println(ColonyRooms)
 }
 
-func CheckLineRoomFormat(line string) string {
-	if roomMatch, _ := regexp.MatchString(`^\S+\s\d+\s\d+$`, line); roomMatch {
-		return "room"
-	} else if tunnel, _ := regexp.MatchString(`\w+-\w+`, line); tunnel {
-		return "tunnel"
-	}
-	return "wrong format"
+// RoomLineFormat checks if a line matches the format for a room line
+func RoomLineFormat(line string) bool {
+	roomMatch, _ := regexp.MatchString(`^\S+\s\d+\s\d+$`, line)
+	return roomMatch
+}
+
+// TunnelLineFormat checks if a line matches the format for a tunnel line
+func TunnelLineFormat(line string) bool {
+	tunnelMatch, _ := regexp.MatchString(`\w+-\w+`, line)
+	return tunnelMatch
 }
