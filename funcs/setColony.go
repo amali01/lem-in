@@ -7,7 +7,6 @@ import (
 	"os"
 	"regexp"
 	"strconv"
-	"strings"
 )
 
 func SetColony(filePath string) {
@@ -35,11 +34,12 @@ func SetColony(filePath string) {
 	var isEnd, isStart bool
 	for scanner.Scan() {
 		line = scanner.Text()
-		if !RoomLineFormat(line) && !strings.HasPrefix(line, "#") {
+		// if !RoomLineFormat(line) && !strings.HasPrefix(line, "#") {
+		if TunnelLineFormat(line) {
 			break
 		}
 		if RoomLineFormat(line) {
-			AddRoom(line,isStart,isEnd)
+			AddRoom(line, isStart, isEnd)
 			isStart = false
 			isEnd = false
 		} else if line == "##start" {
@@ -76,6 +76,6 @@ func RoomLineFormat(line string) bool {
 
 // TunnelLineFormat checks if a line matches the format for a tunnel line
 func TunnelLineFormat(line string) bool {
-	tunnelMatch, _ := regexp.MatchString(`\w+-\w+`, line)
+	tunnelMatch, _ := regexp.MatchString(`\S+-\S+`, line)
 	return tunnelMatch
 }
