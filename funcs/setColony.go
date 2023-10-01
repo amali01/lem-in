@@ -27,7 +27,7 @@ func SetColony(filePath string) {
 		if NumOfAnts, err := strconv.Atoi(line); err == nil {
 			fmt.Println("Number of ants:", NumOfAnts)
 		} else {
-			log.Fatal("Invalid number of ants")
+			log.Fatal("ERROR: invalid data format, invalid number of Ants")
 		}
 	}
 

@@ -12,5 +12,8 @@ func main() {
 		return
 	}
 	funcs.SetColony(os.Args[1])
-	fmt.Println(funcs.ColonyRooms)
+	fmt.Println("all rooms:",funcs.ColonyRooms)
+	for i, path := range funcs.FindAllPaths(funcs.ColonyRooms) {
+		fmt.Println(i+1,"path: ",path)
+	}
 }
