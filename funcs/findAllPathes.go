@@ -1,21 +1,22 @@
 package funcs
 
-func FindAllPaths(AllRooms []Room) []Path {
+func FindAllPaths(AllRooms []Room) ([]Path, bool) {
 	startRoom := &AllRooms[0]
 	endRoom := &AllRooms[len(AllRooms)-1]
 
 	if startRoom == nil || endRoom == nil {
-		return nil
+		return nil, false
 	}
 
 	var allPaths []Path
 	currentPath := make(Path, 0)
 	visited := make(map[string]bool)
-	findPathsDFS(*startRoom, *endRoom, currentPath, visited, &allPaths)
-	return allPaths
+	findPaths(*startRoom, *endRoom, currentPath, visited, &allPaths)
+	return allPaths, len(allPaths) != 0
 }
 
-func findPathsDFS(currentRoom, endRoom Room, currentPath Path, visited map[string]bool, allPaths *[]Path) {
+
+func findPaths(currentRoom, endRoom Room, currentPath Path, visited map[string]bool, allPaths *[]Path) {
 	// Mark the current room as visited
 	visited[currentRoom.Name] = true
 	// Add the current room to the current path
@@ -31,7 +32,7 @@ func findPathsDFS(currentRoom, endRoom Room, currentPath Path, visited map[strin
 	// Explore the neighboring rooms recursively
 	for _, neighbor := range currentRoom.Connections {
 		if !visited[neighbor.Name] {
-			findPathsDFS(*neighbor, endRoom, currentPath, visited, allPaths)
+			findPaths(*neighbor, endRoom, currentPath, visited, allPaths)
 		}
 	}
 

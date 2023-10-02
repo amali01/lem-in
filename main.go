@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
+
 	"lem-in/funcs"
 )
 
@@ -12,16 +14,28 @@ func main() {
 		return
 	}
 	funcs.SetColony(os.Args[1])
-	fmt.Println("all rooms:",funcs.ColonyRooms)
-	// for i, path := range funcs.FindAllPaths(funcs.ColonyRooms) {
-	// 	fmt.Println(i+1,"path: ",path)
-	// }
-	allPaths := funcs.FindAllPaths(funcs.ColonyRooms)
-	// for _, path := range allPaths {
-	// 	fmt.Println(path[len(path)-1])
-	// }
-	fmt.Println(funcs.QuickestPath(allPaths,funcs.NumOfAnts))
-	// for _, path := range allPaths {
-	// 	fmt.Println(path)
-	// }
+	// fmt.Println("all rooms:", funcs.ColonyRooms)
+	allPaths, pathnum := funcs.FindAllPaths(funcs.ColonyRooms)
+	if !pathnum {
+		log.Fatal("No Viable Path Detected")
+	}
+	start := funcs.ColonyRooms[0].Name
+	ants := funcs.QuickestPath(allPaths, funcs.NumOfAnts)
+	for i := 0; i < maxAntPath(ants); i++ { // lines
+		for _, ant := range ants { // ants room in line
+			if i < len(ant.AntPath) && ant.AntPath[i].Name != start {
+				fmt.Print(ant.Name, "-", ant.AntPath[i].Name, " ")
+			}
+		}
+		fmt.Println()
+	}
+}
+
+func maxAntPath(ants []funcs.Ant) (max int) {
+	for _, ant := range ants {
+		if len(ant.AntPath) > max {
+			max = len(ant.AntPath)
+		}
+	}
+	return max
 }

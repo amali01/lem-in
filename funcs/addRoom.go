@@ -2,6 +2,7 @@ package funcs
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -12,6 +13,11 @@ func AddRoom(line string, isStart bool, isEnd bool) {
 	if err != nil {
 		fmt.Println(err)
 		return
+	}
+	for _, chroom := range ColonyRooms {
+		if chroom.Name == room.Name {
+			log.Fatal("Duplicate room name detected")
+		}
 	}
 	switch {
 	case isStart:
@@ -27,12 +33,12 @@ func MakeRoom(line string) (Room, error) {
 	data := strings.Split(line, " ")
 	// A room will never start with the letter L or with # and must have no spaces.
 	if strings.HasPrefix(data[0], "#") || strings.HasPrefix(data[0], "L") || strings.Contains(data[0], " ") {
-		return Room{}, fmt.Errorf("Error: Invalid room Name")
+		return Room{}, fmt.Errorf("error: invalid room Name")
 	}
 	coX, err1 := strconv.Atoi(data[1])
 	coY, err2 := strconv.Atoi(data[2])
 	if err1 != nil || err2 != nil {
-		fmt.Println("Error: Invalid room coordinates")
+		fmt.Println("error: invalid room coordinates")
 		os.Exit(1)
 	}
 	return Room{Name: data[0], Coord_x: coX, Coord_y: coY}, nil

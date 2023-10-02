@@ -7,6 +7,7 @@ import (
 	"os"
 	"regexp"
 	"strconv"
+	"strings"
 )
 
 func SetColony(filePath string) {
@@ -25,6 +26,9 @@ func SetColony(filePath string) {
 		line = scanner.Text()
 		NumOfAnts, _ = strconv.Atoi(line)
 		if _, err := strconv.Atoi(line); err == nil {
+			if NumOfAnts <= 0 {
+				log.Fatal("Invalid Ant Number")
+			}
 			fmt.Println("Number of ants:", NumOfAnts)
 		} else {
 			log.Fatal("ERROR: invalid data format, invalid number of Ants")
@@ -71,12 +75,13 @@ func SetColony(filePath string) {
 
 // RoomLineFormat checks if a line matches the format for a room line
 func RoomLineFormat(line string) bool {
+
 	roomMatch, _ := regexp.MatchString(`^\S+\s\d+\s\d+$`, line)
-	return roomMatch
+	return roomMatch && len(strings.Split(line, " ")) == 3
 }
 
 // TunnelLineFormat checks if a line matches the format for a tunnel line
 func TunnelLineFormat(line string) bool {
 	tunnelMatch, _ := regexp.MatchString(`\S+-\S+`, line)
-	return tunnelMatch
+	return tunnelMatch && len(strings.Split(line, " ")) == 1
 }

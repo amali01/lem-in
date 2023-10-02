@@ -1,54 +1,52 @@
 package funcs
 
 import (
-	"fmt"
 	"sort"
 	"strconv"
 )
 
 func QuickestPath(allPaths []Path, numOfAnts int) []Ant {
 	Ants := createAnts(numOfAnts)
-	fmt.Println(Ants, numOfAnts)
-	// pathLength := 1
-	// for _, path := range allPaths {
-	// 	if len(path) == pathLength {
-
-	// 	}
-	// }
 	SortPaths(allPaths)
-	// prevlen := -1
-	// for i := 0; i < len(allPaths); i++ {
-	// 	for antIdx := range Ants {
-
 	for i, antIdx := 0, 0; i < len(allPaths) && antIdx < len(Ants); i, antIdx = i+1, antIdx+1 {
-		// if i != 0 {
-		// 	prevlen = len(allPaths[i-1])
-		// }
-		if i == 0 {
-			Ants[antIdx].AntPath = allPaths[i]
-			// prevlen = len(allPaths[i])
-			if len(allPaths) == 1 {
-				WaitPaths(allPaths, 1)
-				i = -1
-			}
-		// } else if prevlen != -1 && len(allPaths[i])-prevlen > 1 {
-		// 	Ants[antIdx].AntPath = allPaths[i]
-		// 	WaitPaths(allPaths, i+1)
-		// 	// prevlen = len(allPaths[i])
-		// 	i = -1
+		if CheckConflict(Ants, allPaths[i]) {
+			antIdx--
 		} else {
 			Ants[antIdx].AntPath = allPaths[i]
-			// prevlen = len(allPaths[i])
-			if len(allPaths) == i+1 || (i+1 < len(allPaths) && len(allPaths[i+1])-len(allPaths[i]) > 1) {
-				WaitPaths(allPaths, i+1)
-				i = -1
-			}
+		}
+		// wait in start room if we need to
+		if len(allPaths) == i+1 || (i+1 < len(allPaths) && len(allPaths[i+1])-len(allPaths[i]) > 1) {
+			CrossGate(allPaths, i+1)
+			i = -1
 		}
 	}
 	return Ants
 }
 
-func WaitPaths(allPaths []Path, i int) {
+// CheckConflict would check if new path have a room that have been used at the same time (position) and same thing with the tunnels.
+func CheckConflict(ants []Ant, path Path) bool {
+	for _, ant := range ants {
+		for i, room := range path {
+			// Check if the room is already occupied by another ant at the same time
+			if i < len(ant.AntPath) && room.Name == ant.AntPath[i].Name && !isEndRoom(room, path) {
+				return true
+			}
+			// check if the tunnel is used at the same time 
+			// if i+1 < len(ant.AntPath) && room.Name == ant.AntPath[i+1].Name {
+			// 	return true
+			// }
+		}
+	}
+	return false // No conflicts found
+}
+
+func isEndRoom(room Room, path Path) bool {
+	start := path[0]
+	end := path[len(path)-1]
+	return room.Name == start.Name || room.Name == end.Name
+}
+
+func CrossGate(allPaths []Path, i int) {
 	for pathIdx := range allPaths {
 		if pathIdx == i {
 			break
@@ -72,23 +70,3 @@ func SortPaths(allPaths []Path) {
 		return len(allPaths[i]) < len(allPaths[j])
 	})
 }
-
-// func maxPath(paths []Path) int {
-// 	max := 0
-// 	for _, path := range paths {
-// 		if len(path) > max {
-// 			max = len(path)
-// 		}
-// 	}
-// 	return max
-// }
-
-// func minPath(paths []Path) int {
-// 	min := len(paths[0])
-// 	for _, path := range paths {
-// 		if len(path) < min {
-// 			min = len(path)
-// 		}
-// 	}
-// 	return min
-// }
