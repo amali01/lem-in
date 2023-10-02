@@ -18,6 +18,7 @@ func AddTunnel(line string) {
 	room2 := GetRoomByName(tunnel[1])
 	if room1 != nil && room2 != nil {
 		room1.AddConnection(room2)
+		room2.AddConnection(room1)
 	} else {
 		fmt.Println("Error: Invalid room in tunnel connection")
 	}

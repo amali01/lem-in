@@ -23,7 +23,8 @@ func SetColony(filePath string) {
 	// Read the first line containing the number of ants
 	if scanner.Scan() {
 		line = scanner.Text()
-		if NumOfAnts, err := strconv.Atoi(line); err == nil {
+		NumOfAnts, _ = strconv.Atoi(line)
+		if _, err := strconv.Atoi(line); err == nil {
 			fmt.Println("Number of ants:", NumOfAnts)
 		} else {
 			log.Fatal("ERROR: invalid data format, invalid number of Ants")

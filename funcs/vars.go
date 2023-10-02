@@ -13,3 +13,10 @@ type Room struct {
 	Coord_y     int
 	Connections []*Room
 }
+
+type Path []Room
+
+type Ant struct {
+	Name string
+	AntPath Path
+}
