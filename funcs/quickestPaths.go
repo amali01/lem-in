@@ -31,10 +31,10 @@ func CheckConflict(ants []Ant, path Path) bool {
 			if i < len(ant.AntPath) && room.Name == ant.AntPath[i].Name && !isEndRoom(room, path) {
 				return true
 			}
-			// check if the tunnel is used at the same time 
-			// if i+1 < len(ant.AntPath) && room.Name == ant.AntPath[i+1].Name {
-			// 	return true
-			// }
+			// check if the tunnel is used at the same time
+			if i+1 < len(ant.AntPath) && i+1 < len(path) && path[i+1].Name == ant.AntPath[i].Name && path[i].Name == ant.AntPath[i+1].Name && !isEndRoom(room, path) {
+				return true
+			}
 		}
 	}
 	return false // No conflicts found

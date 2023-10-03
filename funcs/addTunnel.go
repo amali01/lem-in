@@ -1,8 +1,7 @@
 package funcs
 
 import (
-	"fmt"
-	"os"
+	"log"
 	"strings"
 )
 
@@ -21,8 +20,7 @@ func AddTunnel(line string) {
 		room1.AddConnection(room2)
 		room2.AddConnection(room1)
 	} else {
-		fmt.Println("Error: Invalid room in tunnel connection")
-		os.Exit(1)
+		log.Fatal("Error: Invalid room in tunnel")
 	}
 }
 
