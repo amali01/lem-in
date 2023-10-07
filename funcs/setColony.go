@@ -29,7 +29,7 @@ func SetColony(filePath string) {
 			if NumOfAnts <= 0 {
 				log.Fatal("Invalid Ant Number")
 			}
-			fmt.Println("Number of ants:", NumOfAnts)
+			// fmt.Println("Number of ants:", NumOfAnts)
 		} else {
 			log.Fatal("ERROR: invalid data format, invalid number of Ants")
 		}
@@ -75,7 +75,6 @@ func SetColony(filePath string) {
 
 // RoomLineFormat checks if a line matches the format for a room line
 func RoomLineFormat(line string) bool {
-
 	roomMatch, _ := regexp.MatchString(`^\S+\s\d+\s\d+$`, line)
 	return roomMatch && len(strings.Split(line, " ")) == 3
 }

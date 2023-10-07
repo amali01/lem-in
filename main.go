@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 
 	"lem-in/funcs"
 )
@@ -14,6 +15,7 @@ func main() {
 		return
 	}
 	funcs.SetColony(os.Args[1])
+	Printfile(os.Args[1])
 	// fmt.Println("all rooms:", funcs.ColonyRooms)
 	allPaths, pathnum := funcs.FindAllPaths(funcs.ColonyRooms)
 	if !pathnum {
@@ -38,4 +40,16 @@ func maxAntPath(ants []funcs.Ant) (max int) {
 		}
 	}
 	return max
+}
+
+func Printfile(filePath string) {
+	// Run the cat command with the -e option
+	cmd := exec.Command("cat", filePath)
+
+	output, err := cmd.Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Print(string(output))
 }
