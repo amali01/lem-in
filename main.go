@@ -15,14 +15,15 @@ func main() {
 		return
 	}
 	funcs.SetColony(os.Args[1])
-	Printfile(os.Args[1])
 	// fmt.Println("all rooms:", funcs.ColonyRooms)
 	allPaths, pathnum := funcs.FindAllPaths(funcs.ColonyRooms)
 	if !pathnum {
-		log.Fatal("No Viable Path Detected")
+		log.Fatal("UnValid Path Detected")
 	}
+	Printfile(os.Args[1])
 	start := funcs.ColonyRooms[0].Name
 	ants := funcs.QuickestPath(allPaths, funcs.NumOfAnts)
+	numOfLines := 0
 	for i := 0; i < maxAntPath(ants); i++ { // lines
 		for _, ant := range ants { // ants room in line
 			if i < len(ant.AntPath) && ant.AntPath[i].Name != start {
@@ -30,7 +31,9 @@ func main() {
 			}
 		}
 		fmt.Println()
+		numOfLines ++
 	}
+	// fmt.Println(numOfLines)
 }
 
 func maxAntPath(ants []funcs.Ant) (max int) {

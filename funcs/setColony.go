@@ -27,7 +27,7 @@ func SetColony(filePath string) {
 		NumOfAnts, _ = strconv.Atoi(line)
 		if _, err := strconv.Atoi(line); err == nil {
 			if NumOfAnts <= 0 {
-				log.Fatal("Invalid Ant Number")
+				log.Fatal("ERROR: invalid data format, Invalid Ant Number")
 			}
 			// fmt.Println("Number of ants:", NumOfAnts)
 		} else {
@@ -37,6 +37,7 @@ func SetColony(filePath string) {
 
 	// Process the lines until a non-room line or non-comment li	ne is encountered
 	var isEnd, isStart bool
+	var StartRoomfound, EndRoomFound bool
 	for scanner.Scan() {
 		line = scanner.Text()
 		// if !RoomLineFormat(line) && !strings.HasPrefix(line, "#") {
@@ -49,11 +50,17 @@ func SetColony(filePath string) {
 			isEnd = false
 		} else if line == "##start" {
 			isStart = true
+			StartRoomfound = true
 		} else if line == "##end" {
 			isEnd = true
+			EndRoomFound = true
 		}
 	}
 	ColonyRooms = append(ColonyRooms, EndRoom)
+
+	if !StartRoomfound || !EndRoomFound {
+		log.Fatal("ERROR: invalid data format, no start/end Room found")
+	}
 
 	// Check and process the tunnel lines
 	if TunnelLineFormat(line) {
