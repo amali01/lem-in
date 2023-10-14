@@ -39,24 +39,26 @@ func CheckConflict(ants []Ant, path Path) bool {
 	}
 	return false // No conflicts found
 }
-
+// Check if a room is either the start or end room in a path
 func isEndRoom(room Room, path Path) bool {
 	start := path[0]
 	end := path[len(path)-1]
 	return room.Name == start.Name || room.Name == end.Name
 }
 
+// CrossGate adds the first element of each path to the beginning of the path
 func CrossGate(allPaths []Path, i int) {
 	for pathIdx := range allPaths {
 		if pathIdx == i {
 			break
 		}
-		// add the first element again at the beginning
+		// Add the first element again at the beginning
 		firstRoom := allPaths[pathIdx][0]
 		allPaths[pathIdx] = append([]Room{firstRoom}, allPaths[pathIdx]...)
 	}
 }
 
+// Create ants with names "L1", "L2", ...
 func createAnts(numOfAnts int) []Ant {
 	Ants := make([]Ant, numOfAnts)
 	for i := range Ants {
@@ -65,6 +67,7 @@ func createAnts(numOfAnts int) []Ant {
 	return Ants
 }
 
+// Sort paths in ascending order based on their length
 func SortPaths(allPaths []Path) {
 	sort.Slice(allPaths, func(i, j int) bool {
 		return len(allPaths[i]) < len(allPaths[j])

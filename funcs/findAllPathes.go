@@ -1,9 +1,11 @@
 package funcs
 
+// FindAllPaths finds all paths between the start and end rooms in a graph
 func FindAllPaths(AllRooms []Room) ([]Path, bool) {
 	startRoom := &AllRooms[0]
 	endRoom := &AllRooms[len(AllRooms)-1]
 
+	// Check if startRoom or endRoom is nil
 	if startRoom == nil || endRoom == nil {
 		return nil, false
 	}
@@ -11,7 +13,10 @@ func FindAllPaths(AllRooms []Room) ([]Path, bool) {
 	var allPaths []Path
 	currentPath := make(Path, 0)
 	visited := make(map[string]bool)
+
+	// Recursively find all paths from the start room to the end room
 	findPaths(*startRoom, *endRoom, currentPath, visited, &allPaths)
+
 	return allPaths, len(allPaths) != 0
 }
 
