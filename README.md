@@ -1,7 +1,7 @@
 <h1 align="center">Lem-In Project</h1>
 
 <p align="center">
-<img src="lm-in3.jpg" alt="Lem-In Logo" width="40%">
+<img src="lm-in3.jpg" alt="Lem-In Logo" width="39%">
 </p>
 
 
@@ -11,7 +11,7 @@
 ## Getting Started
 You can run the Lem-In project with the following command:
 ```console
-git clone https://learn.reboot01.com/git/emahfood/lem-in.git
+git clone https://github.com/amali01/lem-in.git
 cd lem-in
 ```
 
