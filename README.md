@@ -81,7 +81,7 @@ L3-1
 - Only standard go packages were used.
 
 ## Authors
-- emahfood (Eman Mahfoodh)
+- emahfoodh (Eman Mahfoodh)
 - amali01 (Amgad Ali)
 - akhaled (Abdulrahman Idrees)
 
