@@ -28,13 +28,12 @@ go run . [filename]
 │   └── ...
 │
 ├── funcs/
-│   ├── myInfo.go
-│   ├── myStruct.go
-│   ├── mySort.go
-│   ├── CleanInput.go  
-│   ├── myPrint.go
-│   ├── myFlags.go
-│   └── myColors.go
+│   ├── addRoom.go
+│   ├── addTunnel.go
+│   ├── findAllPaths.go
+│   ├── quickestPaths.go  
+│   ├── SetColony.go
+│   └── vars.go
 │
 ├── main.go
 ├── go.mod
