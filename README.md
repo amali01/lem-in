@@ -1,9 +1,9 @@
 <h1 align="center">Lem-In Project</h1>
 
-
-<p align="center" >
-    <img style="width:350px ; height:350px ;" src="lm-in3.jpg" alt="Lem-In Logo" />
+<p align="center">
+<img src="lm-in3.jpg" alt="Lem-In Logo" width="40%">
 </p>
+
 
 <h2 align="center">About The Project</h2>
 <h4 align="center">Lem-in is a project that simulates a digital version of an ant farm. The objective of this program is to find the quickest path for a given number of ants to navigate through a colony composed of rooms and tunnels. The program reads input from a file, which describes the layout of the ant farm and specifies the starting and ending points.</h4>
