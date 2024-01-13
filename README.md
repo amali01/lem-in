@@ -82,6 +82,6 @@ L3-1
 
 ## Authors
 - emahfood (Eman Mahfoodh)
-- amali (Amgad Ali)
+- amali01 (Amgad Ali)
 - akhaled (Abdulrahman Idrees)
 
